@@ -44,6 +44,16 @@ public class Vetor {
             throw new Exception("Posição de busca não encontrada");
         }
     }
+    
+    public int busca1(String elemento){
+        for(int i = 0; i < this.tamanho; i++){
+            if(elementos[i].equals(elemento)){
+                return i;
+                
+            }
+        }
+        return -1;
+    }
 
     public static void main(String[] args) {
         Vetor vetor = new Vetor(5);
@@ -60,9 +70,7 @@ public class Vetor {
             ex.printStackTrace();
         }
         
-        
         System.out.println("Tamanho: " + vetor.getTamanho());
         System.out.println(vetor.toString());
-        
     }
 }
