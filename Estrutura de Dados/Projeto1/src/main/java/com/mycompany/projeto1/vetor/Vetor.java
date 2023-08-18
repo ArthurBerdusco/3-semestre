@@ -29,12 +29,20 @@ public class Vetor {
         StringBuilder s = new StringBuilder();
         s.append("[");
         for(int i = 0; i < this.tamanho -1; i++){
-            s.append("Posição: " + i + " = "+elementos[i] + ", ");
+            s.append(elementos[i] + ", ");
         }
         s.append("]");
         
         
         return Arrays.toString(elementos);
+    }
+    
+    public String busca(int posicao) throws Exception{
+        if(posicao >= 0 && posicao < tamanho){
+            return elementos[posicao];
+        }else{
+            throw new Exception("Posição de busca não encontrada");
+        }
     }
 
     public static void main(String[] args) {
@@ -47,9 +55,11 @@ public class Vetor {
             vetor.adicionar("Maria");
             vetor.adicionar("Clara");
             vetor.adicionar("Clara");
+            System.out.println(vetor.busca(1));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        
         
         System.out.println("Tamanho: " + vetor.getTamanho());
         System.out.println(vetor.toString());
