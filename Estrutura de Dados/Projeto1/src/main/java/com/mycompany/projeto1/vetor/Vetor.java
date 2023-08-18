@@ -26,6 +26,14 @@ public class Vetor {
     
     @Override
     public String toString(){
+        StringBuilder s = new StringBuilder();
+        s.append("[");
+        for(int i = 0; i < this.tamanho -1; i++){
+            s.append("Posição: " + i + " = "+elementos[i] + ", ");
+        }
+        s.append("]");
+        
+        
         return Arrays.toString(elementos);
     }
 
