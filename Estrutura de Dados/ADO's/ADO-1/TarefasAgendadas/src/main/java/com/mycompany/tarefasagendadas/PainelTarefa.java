@@ -147,7 +147,6 @@ public class PainelTarefa extends javax.swing.JPanel {
             }
         });
 
-        cboStatus.setEditable(true);
         cboStatus.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         cboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PENDENTE", "EM_ANDAMENTO", "CONCLUIDO", "ATRASADO" }));
 
