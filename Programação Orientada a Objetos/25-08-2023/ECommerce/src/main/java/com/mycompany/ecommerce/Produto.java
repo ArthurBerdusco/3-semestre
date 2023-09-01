@@ -1,17 +1,15 @@
 package com.mycompany.ecommerce;
 
+import java.math.BigDecimal;
+
 public class Produto {
 
     private String nome;
-    private double preço;
-
-    public Produto() {
-    }
+    private BigDecimal preço;
     
-    public Produto(String nome, double preço) {
+    public Produto(String nome, BigDecimal preço) {
         this.nome = nome;
         this.preço = preço;
-        
     }
 
     @Override
@@ -23,7 +21,7 @@ public class Produto {
         return nome;
     }
 
-    public double getPreço() {
+    public BigDecimal getPreço() {
         return preço;
     }
 
@@ -31,7 +29,7 @@ public class Produto {
         this.nome = nome;
     }
 
-    public void setPreço(double preço) {
+    public void setPreço(BigDecimal preço) {
         this.preço = preço;
     }
     

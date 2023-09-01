@@ -1,16 +1,15 @@
 package com.mycompany.ecommerce;
 
+import java.math.BigDecimal;
+
 public class Eletronico extends Produto{
     
     private String marca;
     private String modelo;
 
 
-    public Eletronico() {
-    }
-
-    public Eletronico(String nome, double preço, String marca, String modelo) {
-        super(nome, preço);
+    public Eletronico(String nome, BigDecimal preco, String marca, String modelo) {
+        super(nome, preco);
         this.marca = marca;
         this.modelo = modelo;
     }
@@ -34,7 +33,7 @@ public class Eletronico extends Produto{
 
     @Override
     public String toString() {
-        return "Eletronico{" + "marca=" + marca + ", modelo=" + modelo + ", nome=" + getNome() + ", preço=" + getPreço() +  '}';
+        return "Eletronico{" + "marca=" + marca + ", modelo=" + modelo + ", nome=" + getNome() + ", preco=" + getPreço() +  '}';
     }
     
 }
