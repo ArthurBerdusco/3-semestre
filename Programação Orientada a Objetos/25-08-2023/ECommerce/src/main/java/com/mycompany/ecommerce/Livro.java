@@ -11,6 +11,11 @@ public class Livro extends Produto {
         this.autor = autor;
     }
 
+    @Override
+    public String toString() {
+        return "Livro{" + super.toString() + "autor=" + autor + '}';
+    }
+
     public String getAutor() {
         return autor;
     }
@@ -20,8 +25,8 @@ public class Livro extends Produto {
     }
 
     @Override
-    public String toString() {
-        return "Eletronico{" + "marca=" + autor + ", nome=" + getNome() + ", preco=" + getPreço() + '}';
+    public BigDecimal calcularDesconto() {
+        return getPreco().multiply(new BigDecimal(0.05));
     }
 
 }

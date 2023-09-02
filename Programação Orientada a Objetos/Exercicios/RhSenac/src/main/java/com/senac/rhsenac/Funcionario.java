@@ -1,22 +1,20 @@
 package com.senac.rhsenac;
 
-abstract class Funcionario {
+import java.math.BigDecimal;
+
+public abstract class Funcionario {
 
     private int codigo;
     private String nome;
-    protected double salarioBase;
+    protected BigDecimal salarioBase;
 
-    public Funcionario() {
-    }
-
-    public Funcionario(int codigo, String nome, double salarioBase) {
+    public Funcionario(int codigo, String nome, BigDecimal salarioBase) {
         this.codigo = codigo;
         this.nome = nome;
         this.salarioBase = salarioBase;
-        
     }
 
-    public abstract double calcularSalario();
+    public abstract BigDecimal calcularSalario();
 
     public void setCodigo(int codigo) {
         this.codigo = codigo;
@@ -33,5 +31,12 @@ abstract class Funcionario {
     public String getNome() {
         return nome;
     }
+
+    @Override
+    public String toString() {
+        return "codigo=" + codigo + ", nome=" + nome + ", salarioBase=" + salarioBase;
+    }
+    
+    
 
 }

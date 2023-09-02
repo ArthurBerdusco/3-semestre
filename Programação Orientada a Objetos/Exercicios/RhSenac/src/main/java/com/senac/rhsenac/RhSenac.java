@@ -1,15 +1,17 @@
 package com.senac.rhsenac;
 
+import java.math.BigDecimal;
+
 public class RhSenac {
 
     public static void main(String[] args) {
-        Funcionario engenheiro1 = new Engenheiro(1, "João Silva", 5500, "Automação", "182938");
-        Funcionario gerente1 = new Gerente(2, "Carlos Souza", 7890, "Serviços", 3500);
-        Funcionario presidente1 = new Presidente(3, "Fabio Santos", 22300, 75000);
+        var engenheiro = new Engenheiro(1, "João Silva", new BigDecimal(5500), "Automação", "182938");
+        var gerente = new Gerente(2, "Carlos Souza", new BigDecimal(7890), "Serviços", new BigDecimal(3500));
+        var presidente = new Presidente(3, "Fabio Santos", new BigDecimal(22300), new BigDecimal(75000));
         
-        System.out.println(engenheiro1.toString());
-        System.out.println(gerente1.toString());
-        System.out.println(presidente1.toString());
+        System.out.println(engenheiro);
+        System.out.println(gerente);
+        System.out.println(presidente);
     }
     
 }

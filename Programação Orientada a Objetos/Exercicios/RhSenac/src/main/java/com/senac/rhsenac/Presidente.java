@@ -1,26 +1,24 @@
 package com.senac.rhsenac;
 
-public class Presidente extends Funcionario{
+import java.math.BigDecimal;
+
+public final class Presidente extends Funcionario{
     
-    private double cotaAcoes;
+    private BigDecimal cotaAcoes;
 
-    public Presidente() {
-    }
-
-    public Presidente(int codigo, String nome, double salarioBase, double cotaAcoes) {
+    public Presidente(int codigo, String nome, BigDecimal salarioBase, BigDecimal cotaAcoes) {
         super(codigo, nome, salarioBase);
         this.cotaAcoes = cotaAcoes;
     }
 
     @Override
-    public double calcularSalario() {
-        return salarioBase += cotaAcoes;
+    public BigDecimal calcularSalario() {
+        return salarioBase.add(cotaAcoes);
     }
 
     @Override
     public String toString() {
-        return "Presidente{" + "nome=" + this.getNome() + ", código=" + this.getCodigo() + ", cotaAcoes=" + cotaAcoes + ", salario=" + this.calcularSalario() + '}';
+        return "Presidente{" + super.toString() + "cotaAcoes=" + cotaAcoes + ", salarioTotal=" + this.calcularSalario() + '}';
     }
    
-    
 }
