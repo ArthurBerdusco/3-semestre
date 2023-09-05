@@ -1,0 +1,187 @@
+view: pedaço da tela
+posso ter varias views dentro de uma view
+cada componente react native tem propriedades do tipo evento que é ativada quando algo acontece com o componente
+safeareaview é exclusivo do iphone
+
+Foi desenvolvido na aula um pequeno app calculadora react native
+
+
+
+
+
+import React, { useState } from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  TextInput,
+  ActivityIndicator,
+  Button,
+  Image,
+  ImageBackground,
+} from 'react-native';
+
+const MENSAGEM_EMAIL = 'Digite o seu e-mail.';
+const MENSAGEM_SENHA = 'Digite a sua senha.';
+const EMAIL = 'eve.holt@reqres.in';
+const SENHA = 'cityslicka';
+
+const ValidateLogin = async (email, senha, status, activity) => {
+  if (email.trim().length === 0) {
+    alert(MENSAGEM_EMAIL);
+    return;
+  }
+
+  if (senha.trim().length === 0) {
+    alert(MENSAGEM_SENHA);
+    return;
+  }
+
+  activity(true);
+
+  let usuario = {
+    email: email,
+    password: senha,
+  };
+
+  await fetch('https://reqres.in/api/login', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(usuario),
+  })
+    .then((response) => {
+      if (response.status === 200) {
+        response.text().then(function (result) {
+          status('Usuário autenticado com sucesso.');
+          console.log(result);
+        });
+      } else {
+        status(`Usuário ou senha inválidos => código: ${response.status}`);
+      }
+      activity(false);
+    })
+    .catch(() => status('Não foi possivel executar o login.'));
+};
+
+const somar = async (num1, num2, status, activity) => {
+  activity(true);
+  status(parseInt(num1) + parseInt(num2));
+  activity(false);
+};
+
+export default () => {
+  const [num1, setNum1] = useState('');
+  const [num2, setNum2] = useState('');
+  const [status, setStatus] = useState('');
+  const [activity, setActivity] = useState(false);
+
+  return (
+    <View style={Estilos.container}>
+      <ImageBackground
+        source={require('./images.jfif')}
+        resizeMode="cover"
+        style={Estilos.appImage}
+        imageStyle={{ opacity: 1 }}>
+        <Text style={Estilos.title}>Calculadora</Text>
+        <TextInput
+          autoCorrect={false}
+          placeholder={'Digite o valor'}
+          placeholderTextColor="grey"
+          style={Estilos.textInput}
+          clearButtonMode="always"
+          onChangeText={(value) => setNum1(value)}></TextInput>
+        <TextInput
+          autoCorrect={false}
+          placeholder={'Digite o valor'}
+          placeholderTextColor="grey"
+          style={Estilos.textInput}
+          clearButtonMode="always"
+          onChangeText={(value) => setNum2(value)}></TextInput>
+
+          
+
+        <View style={Estilos.button}>
+          <Button
+            onPress={() => {
+              somar(num1, num2, setStatus, setActivity);
+            }}
+            title="Somar"
+          />
+        </View>
+
+        <View style={{ marginTop: 10 }}>
+          <ActivityIndicator size="large" animating={activity} />
+        </View>
+        <Text style={Estilos.loginLabel}>{status}</Text>
+      </ImageBackground>
+    </View>
+  );
+};
+
+const Estilos = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#202020',
+  },
+  title: {
+    margin: 24,
+    fontSize: 26,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  paragraph: {
+    margin: 24,
+    fontSize: 18,
+    color: 'black',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  loginLabel: {
+    color: 'white',
+    marginTop: 10,
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  button: {
+    fontSize: 15,
+    width: 120,
+    height: 40,
+    marginTop: 20,
+    marginHorizontal: 20,
+    paddingHorizontal: 10,
+    textAlign: 'center',
+    alignSelf: 'center',
+  },
+  textInput: {
+    backgroundColor: 'white',
+    color: 'black',
+    fontSize: 15,
+    height: 40,
+    width: 250,
+    marginTop: 20,
+    marginHorizontal: 20,
+    paddingHorizontal: 10,
+    alignSelf: 'center',
+  },
+  logo: {
+    width: 250,
+    height: 100,
+    alignSelf: 'center',
+  },
+  appImage: {
+    flex: 1,
+    width: '330px',
+    height: '820px',
+    justifyContent: 'center',
+    backgroundColor: 'black',
+    backgroundSize: '10%',
+  },
+});
+
