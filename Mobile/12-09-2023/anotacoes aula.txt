@@ -1,0 +1,23 @@
+hook
+atualiza o valor de varios id que tem a mesma proposta de uma vez só
+
+
+
+UseState
+estado da variável
+
+const [count, setCount] = useState(0) ---> Retorna vetor de 2 posições;
+
+useState(0) retorna vetor de duas posicoes
+
+
+Em java:
+int useState[] = new int[2];
+int count = useState[0];
+int setCount = useState[1];
+
+
+webview em aplicativos (parte de cima é um componente, parte de)
+
+aprender um nativo e um hibrido
+kotlin e react
