@@ -1,0 +1,26 @@
+Profiling para mensurar o uso de memoria, cpu, disco, rede para especificar requisitos da maquina para o programa que nós desenvolvemos
+
+Medir para dimencionar o recurso que vamos usar em nuvem ou na maquina.
+
+Ferramentas para medição de desempenho de acordo com uso da cpu entradas e saidas.
+
+
+5 mecanismos para implementar concorrencia:
+interrupções
+operacoes eficientes e/s
+buffering
+spooling
+reentrância
+
+interrupções:
+para um fluxo de instruções para fazer outro fluxo, troca de programas
+1.temporização
+2. e/s
+3. falha de hardware
+4. falha de software
+Toda entrada e saída gera interrupções
+
+
+
+Entrada/Saida
+tem relação com interrupções tambem
