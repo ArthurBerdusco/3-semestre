@@ -11,6 +11,7 @@ public class Paciente {
         this.idade = idade;
         
         if(idade >= 65){
+            System.out.println("KKKKKKKKKK");
             setIdoso(true);
         }
     }

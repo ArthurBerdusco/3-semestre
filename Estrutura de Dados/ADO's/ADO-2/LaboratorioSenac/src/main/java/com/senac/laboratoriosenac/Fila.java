@@ -1,7 +1,7 @@
 package com.senac.laboratoriosenac;
 import com.senac.laboratoriosenac.Paciente;
 
-public class Fila<T extends Paciente> extends EstruturaEstatica<T> {
+public class Fila extends EstruturaEstatica {
 
     public Fila() {
         super();
@@ -11,7 +11,7 @@ public class Fila<T extends Paciente> extends EstruturaEstatica<T> {
         super(capacidade);
     }
 
-    public void enfileira(T p) {
+    public void enfileira(Paciente p) {
         
         if(p.isIdoso()){
             System.out.println("Sou idoso");
@@ -23,7 +23,7 @@ public class Fila<T extends Paciente> extends EstruturaEstatica<T> {
         super.adiciona(p);    
     }
 
-    public void enfileiraPreferencial(T elemento) {
+    public void enfileiraPreferencial(Paciente elemento) {
         super.adiciona(0, elemento);
     }
 
@@ -32,8 +32,7 @@ public class Fila<T extends Paciente> extends EstruturaEstatica<T> {
             return null;
         }
         
-        System.out.println(this.elementos[0] instanceof Paciente);
-        return this.elementos[0];
+        return (Paciente) this.elementos[0];
     }
 
     public Paciente desenfileira() {
@@ -42,7 +41,7 @@ public class Fila<T extends Paciente> extends EstruturaEstatica<T> {
         }
 
         final int POS = 0;
-        Paciente elementoASerRemovido = this.elementos[POS];
+        Paciente elementoASerRemovido = (Paciente) this.elementos[POS];
         this.remove(POS);
 
         return elementoASerRemovido;

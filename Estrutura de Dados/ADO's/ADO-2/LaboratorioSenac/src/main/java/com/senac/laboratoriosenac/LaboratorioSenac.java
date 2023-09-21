@@ -3,11 +3,11 @@ package com.senac.laboratoriosenac;
 public class LaboratorioSenac {
 
     public static void main(String[] args) {
-        Fila<Paciente> fila = new Fila<Paciente>();
+        Fila fila = new Fila();
         
         Paciente p1 = new Paciente("Arthur", 31); 
         Paciente p2 = new Paciente("Joao", 20); 
-        Paciente p3 = new Paciente("Carlos", 20); 
+        Paciente p3 = new Paciente("Carlos", 66); 
         
         fila.enfileira(p1);
         fila.enfileira(p2);
@@ -15,7 +15,8 @@ public class LaboratorioSenac {
         
         System.out.println(fila.tamanho);
         
-        System.out.println(fila.espiar());
+        System.out.println(fila.espiar().getIdade());
+     
     }
 
 }
