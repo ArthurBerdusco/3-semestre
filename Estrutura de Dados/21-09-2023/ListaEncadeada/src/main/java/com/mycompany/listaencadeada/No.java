@@ -30,6 +30,8 @@ public class No<Tipo> { //Todo nó tem informação e ponteiro
     public void setProximo(No<Tipo> proximo) {
         this.proximo = proximo;
     }
+    
+
 
     @Override
     public String toString() {
