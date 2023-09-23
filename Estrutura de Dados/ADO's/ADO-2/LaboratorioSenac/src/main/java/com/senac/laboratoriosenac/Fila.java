@@ -1,7 +1,7 @@
 package com.senac.laboratoriosenac;
 import com.senac.laboratoriosenac.Paciente;
 
-public class Fila extends EstruturaEstatica {
+public class Fila<T> extends EstruturaEstatica {
 
     public Fila() {
         super();
@@ -12,19 +12,7 @@ public class Fila extends EstruturaEstatica {
     }
 
     public void enfileira(Paciente p) {
-        
-        if(p.isIdoso()){
-            System.out.println("Sou idoso");
-            super.adiciona(0,p);
-        }
-        
-        System.out.println("Não sou idoso");
-        
         super.adiciona(p);    
-    }
-
-    public void enfileiraPreferencial(Paciente elemento) {
-        super.adiciona(0, elemento);
     }
 
     public Paciente espiar() {
@@ -32,7 +20,7 @@ public class Fila extends EstruturaEstatica {
             return null;
         }
         
-        return (Paciente) this.elementos[0];
+        return this.elementos[0];
     }
 
     public Paciente desenfileira() {
@@ -41,11 +29,32 @@ public class Fila extends EstruturaEstatica {
         }
 
         final int POS = 0;
-        Paciente elementoASerRemovido = (Paciente) this.elementos[POS];
+        Paciente elementoASerRemovido = this.elementos[POS];
         this.remove(POS);
+        
+        if(elementoASerRemovido.isPreferencial()){
+            this.preferenciais-=1;
+        }
 
         return elementoASerRemovido;
 
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < this.tamanho; i++) {
+            sb.append('[');
+            sb.append("Nome="+this.elementos[i].getNome());
+            sb.append(", ");
+            sb.append("Idade="+this.elementos[i].getIdade());
+            sb.append(", ");
+            sb.append("Preferencial="+this.elementos[i].isPreferencial());
+            sb.append(']');
+            sb.append(", \n");
+        }
+
+        return sb.toString();
+    }
+    
 }

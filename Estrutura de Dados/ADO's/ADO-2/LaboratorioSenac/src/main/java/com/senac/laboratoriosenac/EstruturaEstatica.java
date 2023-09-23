@@ -1,18 +1,15 @@
 package com.senac.laboratoriosenac;
 
-/**
- *
- * @author arthur.sbsouza
- */
-
-public class EstruturaEstatica<Paciente> {
+public class EstruturaEstatica {
 
     public Paciente[] elementos;
     public int tamanho;
+    public int preferenciais;
 
     public EstruturaEstatica(int capacidade) {
-        this.elementos = (Paciente[]) new Object[capacidade];
+        this.elementos = new Paciente[capacidade];
         this.tamanho = 0;
+        this.preferenciais = 0;
     }
 
     public EstruturaEstatica() {
@@ -20,10 +17,16 @@ public class EstruturaEstatica<Paciente> {
     }
 
     public boolean adiciona(Paciente paciente) {
+
         this.aumentaCapacidade();
-        
+
+        if (paciente.isPreferencial()) {
+            adiciona(this.preferenciais, paciente);
+            this.preferenciais+=1;
+            return true;
+        }
+
         if (this.tamanho < this.elementos.length) {
-            System.out.println("Entrei aqui no adiciona super");
             this.elementos[this.tamanho] = paciente;
             this.tamanho++;
             return true;
@@ -32,13 +35,13 @@ public class EstruturaEstatica<Paciente> {
     }
 
     public boolean adiciona(int posicao, Paciente paciente) {
-        if (!(posicao >= 0 && posicao < tamanho)) {
+        if (!(posicao >= 0 && posicao <= this.tamanho)) {
             throw new IllegalArgumentException("Posição Inválida");
         }
 
         this.aumentaCapacidade();
 
-        for (int i = this.tamanho - 1; i >= posicao; i++) {
+        for (int i = this.tamanho - 1; i >= posicao; i--) {
             this.elementos[i + 1] = this.elementos[i];
         }
 
@@ -46,7 +49,6 @@ public class EstruturaEstatica<Paciente> {
         this.tamanho++;
         return true;
     }
-
 
     public void aumentaCapacidade() {
         if (this.tamanho == this.elementos.length) {
@@ -61,24 +63,6 @@ public class EstruturaEstatica<Paciente> {
 
     public int tamanho() {
         return this.tamanho;
-    }
-
-    public String toString() {
-        StringBuilder s = new StringBuilder();
-        s.append("[");
-
-        for (int i = 0; i < this.tamanho - 1; i++) {
-            s.append(this.elementos[i]);
-            s.append(", ");
-        }
-
-        if (this.tamanho > 0) {
-            s.append(this.elementos[this.tamanho - 1]);
-        }
-
-        s.append("]");
-
-        return s.toString();
     }
 
     public boolean estaVazia() {
