@@ -1,5 +1,3 @@
-Aula 06-10:
-
 Usaremos java fx nas proximas aulas para criar interfaces e aplicar os conceitos aprendidos
 
 
@@ -14,16 +12,4 @@ Builder é um design patter de criação de objetos - construtor flexivel - mane
 
 
 scenebuilder
-
-===========================================
-
-Aula 20-10
-
-Builder é um design patter de criação de objetos - construtor flexivel - maneira de facilitar a criação de objetos
-
-chainOfResponsability cadeia de responsabilidades
-
-TemplateMethods
-
-
  
