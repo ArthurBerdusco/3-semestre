@@ -31,7 +31,6 @@ public class Grafo<TIPO> {
         inicio.adicionarArestaSaida(aresta);
         fim.adicionarArestaEntrada(aresta);
         this.arestas.add(aresta);
-        
     }
     
     public Vertice<TIPO> getVertice(TIPO dado){
