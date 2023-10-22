@@ -2,14 +2,14 @@ package br.com.senac.otimizadoraereo.model;
 
 import java.util.ArrayList;
 
-public class Vertice<Aeroporto> {
+public class Vertice {
     
     private Aeroporto aeroporto;
-    private ArrayList<Aresta<Aeroporto>> arestas;
+    private ArrayList<Aresta> arestas;
 
     public Vertice(Aeroporto aeroporto) {
         this.aeroporto = aeroporto;
-        this.arestas = new ArrayList<Aresta<Aeroporto>>();
+        this.arestas = new ArrayList<Aresta>();
     }
 
     public Aeroporto getAeroporto() {
@@ -20,15 +20,15 @@ public class Vertice<Aeroporto> {
         this.aeroporto = aeroporto;
     }
 
-    public ArrayList<Aresta<Aeroporto>> getArestas() {
+    public ArrayList<Aresta> getArestas() {
         return arestas;
     }
 
-    public void setArestas(ArrayList<Aresta<Aeroporto>> arestas) {
+    public void setArestas(ArrayList<Aresta> arestas) {
         this.arestas = arestas;
     }
 
-    public void adicionarAresta(Aresta<Aeroporto> aresta){
+    public void adicionarAresta(Aresta aresta){
         this.arestas.add(aresta);
     }
     

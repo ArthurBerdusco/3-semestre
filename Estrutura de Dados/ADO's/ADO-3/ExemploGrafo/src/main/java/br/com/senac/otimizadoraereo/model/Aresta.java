@@ -1,15 +1,15 @@
 package br.com.senac.otimizadoraereo.model;
 
-public class Aresta<TIPO> {
+public class Aresta {
 
     private Double distancia;
-    private Vertice<TIPO> verticeA;
-    private Vertice<TIPO> verticeB;
+    private Vertice origem;
+    private Vertice destino;
 
-    public Aresta(Double distancia, Vertice<TIPO> verticeA, Vertice<TIPO> verticeB) {
+    public Aresta(Double distancia, Vertice origem, Vertice destino) {
         this.distancia = distancia;
-        this.verticeA = verticeA;
-        this.verticeB = verticeB;
+        this.origem = origem;
+        this.destino = destino;
     }
 
     public Double getDistancia() {
@@ -20,20 +20,20 @@ public class Aresta<TIPO> {
         this.distancia = distancia;
     }
 
-    public Vertice<TIPO> getVerticeA() {
-        return verticeA;
+    public Vertice getOrigem() {
+        return origem;
     }
 
-    public void setVerticeA(Vertice<TIPO> verticeA) {
-        this.verticeA = verticeA;
+    public void setOrigem(Vertice origem) {
+        this.origem = origem;
     }
 
-    public Vertice<TIPO> getVerticeB() {
-        return verticeB;
+    public Vertice getDestino() {
+        return destino;
     }
 
-    public void setVerticeB(Vertice<TIPO> verticeB) {
-        this.verticeB = verticeB;
+    public void setDestino(Vertice destino) {
+        this.destino = destino;
     }
 
 
