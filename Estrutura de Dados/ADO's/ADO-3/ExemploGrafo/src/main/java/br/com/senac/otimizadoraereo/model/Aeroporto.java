@@ -34,6 +34,4 @@ public class Aeroporto {
         return "Aeroporto{" + "nome=" + nome + ", capacidade=" + capacidade + '}';
     }
     
-    
-    
 }

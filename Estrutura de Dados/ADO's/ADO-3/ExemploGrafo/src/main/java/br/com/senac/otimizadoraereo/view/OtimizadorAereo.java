@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 public class OtimizadorAereo extends javax.swing.JFrame {
 
     ArrayList<Aresta> rotas;
+    List<String[]> rotasAux;
     ArrayList<Vertice> vertices;
     Grafo grafo = new Grafo();
     
@@ -81,7 +82,7 @@ public class OtimizadorAereo extends javax.swing.JFrame {
         carregarDados();
         initComponents();
         
-        List<String[]> rotasAux = new ArrayList<String[]>();
+        rotasAux = new ArrayList<String[]>();
         
         for(int i = 0; i< grafo.getArestas().size(); i++){
             if(i % 2 == 0){
@@ -215,7 +216,7 @@ public class OtimizadorAereo extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCalcularActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        RotasAerasBrasilView tela = new RotasAerasBrasilView();
+        RotasAerasBrasilView tela = new RotasAerasBrasilView(rotasAux);
         tela.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
