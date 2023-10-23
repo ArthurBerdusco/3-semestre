@@ -5,6 +5,7 @@ import br.com.senac.otimizadoraereo.model.Aresta;
 import br.com.senac.otimizadoraereo.model.Grafo;
 import br.com.senac.otimizadoraereo.model.Vertice;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class OtimizadorAereo extends javax.swing.JFrame {
@@ -79,6 +80,19 @@ public class OtimizadorAereo extends javax.swing.JFrame {
     public OtimizadorAereo() {
         carregarDados();
         initComponents();
+        
+        List<String[]> rotasAux = new ArrayList<String[]>();
+        
+        for(int i = 0; i< grafo.getArestas().size(); i++){
+            if(i % 2 == 0){
+                String[] rota = new String[2];
+                rota[0] = grafo.getArestas().get(i).getOrigem().getAeroporto().getNome();
+                rota[1] = grafo.getArestas().get(i).getDestino().getAeroporto().getNome();
+                rotasAux.add(rota);
+            }
+        }
+        
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -92,6 +106,7 @@ public class OtimizadorAereo extends javax.swing.JFrame {
         lblOrigim = new javax.swing.JLabel();
         lblDestino = new javax.swing.JLabel();
         btnCalcular = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -126,6 +141,13 @@ public class OtimizadorAereo extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,7 +168,9 @@ public class OtimizadorAereo extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(259, 259, 259))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addGap(162, 162, 162))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +184,9 @@ public class OtimizadorAereo extends javax.swing.JFrame {
                     .addComponent(lblDestino)
                     .addComponent(cboDestino, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 20, Short.MAX_VALUE)
-                .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40))
@@ -188,6 +214,11 @@ public class OtimizadorAereo extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnCalcularActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        RotasAerasBrasilView tela = new RotasAerasBrasilView();
+        tela.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -201,6 +232,7 @@ public class OtimizadorAereo extends javax.swing.JFrame {
     private javax.swing.JButton btnCalcular;
     private javax.swing.JComboBox<String> cboDestino;
     private javax.swing.JComboBox<String> cboOrigem;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDestino;
     private javax.swing.JLabel lblOrigim;

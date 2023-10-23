@@ -1,114 +1,92 @@
 package br.com.senac.otimizadoraereo.view;
 
+import br.com.senac.otimizadoraereo.model.Grafo;
 import java.awt.Graphics;
-import java.awt.MouseInfo;
 import java.awt.Point;
-import javax.swing.SwingUtilities;
+
 
 public class RotasAerasBrasilView extends javax.swing.JFrame {
 
-    private Point amazonasCoordenadas;
-    private Point saoPauloCoordenadas;
-
     public RotasAerasBrasilView() {
         initComponents();
-
-        amazonasCoordenadas = new Point(180, 190);
-        saoPauloCoordenadas = new Point(420, 460);
     }
-
-    private void desenharLinha(Point startPoint, Point endPoint) {
-        Graphics g = jLabel2.getGraphics();
-        g.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+    
+    public void desenharRota(Point origem, Point destino){
+        Graphics g = pnlPrincipal.getGraphics();
+        g.drawLine(origem.x,origem.y,destino.x, destino.y);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel2 = new javax.swing.JLabel();
+        btgEstados = new javax.swing.ButtonGroup();
+        pnlPrincipal = new javax.swing.JPanel();
         rbtAmazonas = new javax.swing.JRadioButton();
         rbtSaoPaulo = new javax.swing.JRadioButton();
+        rbtRioDeJaneiro = new javax.swing.JRadioButton();
+        rbtMinasGerais = new javax.swing.JRadioButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(700, 700));
-        setPreferredSize(new java.awt.Dimension(700, 700));
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlPrincipal.setForeground(new java.awt.Color(255, 255, 255));
+        pnlPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlPrincipalMouseClicked(evt);
+            }
+        });
+        pnlPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        rbtAmazonas.setBackground(new java.awt.Color(255, 255, 255));
+        btgEstados.add(rbtAmazonas);
+        rbtAmazonas.setForeground(new java.awt.Color(0, 0, 0));
+        rbtAmazonas.setText("Amazonas");
+        pnlPrincipal.add(rbtAmazonas, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, -1, -1));
+
+        rbtSaoPaulo.setBackground(new java.awt.Color(255, 255, 255));
+        btgEstados.add(rbtSaoPaulo);
+        rbtSaoPaulo.setForeground(new java.awt.Color(0, 0, 0));
+        rbtSaoPaulo.setText("São Paulo");
+        pnlPrincipal.add(rbtSaoPaulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 460, -1, -1));
+
+        rbtRioDeJaneiro.setBackground(new java.awt.Color(255, 255, 255));
+        btgEstados.add(rbtRioDeJaneiro);
+        rbtRioDeJaneiro.setForeground(new java.awt.Color(0, 0, 0));
+        rbtRioDeJaneiro.setText("Rio de Janeiro");
+        pnlPrincipal.add(rbtRioDeJaneiro, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 470, -1, -1));
+
+        rbtMinasGerais.setBackground(new java.awt.Color(255, 255, 255));
+        btgEstados.add(rbtMinasGerais);
+        rbtMinasGerais.setForeground(new java.awt.Color(0, 0, 0));
+        rbtMinasGerais.setText("Minas Gerais");
+        rbtMinasGerais.setBorder(null);
+        pnlPrincipal.add(rbtMinasGerais, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 400, -1, -1));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mapaBrasil.jpg"))); // NOI18N
-        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 700));
+        pnlPrincipal.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 700));
 
-        rbtAmazonas.setForeground(new java.awt.Color(255, 255, 255));
-        rbtAmazonas.setText("Amazonas");
-        rbtAmazonas.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                rbtAmazonasMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                rbtAmazonasMousePressed(evt);
-            }
-        });
-        rbtAmazonas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbtAmazonasActionPerformed(evt);
-            }
-        });
-        getContentPane().add(rbtAmazonas, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 190, -1, -1));
-
-        rbtSaoPaulo.setForeground(new java.awt.Color(255, 255, 255));
-        rbtSaoPaulo.setText("São Paulo");
-        rbtSaoPaulo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                rbtSaoPauloMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                rbtSaoPauloMousePressed(evt);
-            }
-        });
-        getContentPane().add(rbtSaoPaulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 460, -1, -1));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void rbtAmazonasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbtAmazonasActionPerformed
-
-
-    }//GEN-LAST:event_rbtAmazonasActionPerformed
-
-    private void rbtAmazonasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbtAmazonasMousePressed
-
-
-    }//GEN-LAST:event_rbtAmazonasMousePressed
-
-    private void rbtSaoPauloMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbtSaoPauloMousePressed
-
-    }//GEN-LAST:event_rbtSaoPauloMousePressed
-
-    private void rbtSaoPauloMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbtSaoPauloMouseClicked
-        if (rbtSaoPaulo.isSelected() && rbtAmazonas.isSelected()) {
-            rbtAmazonas.setEnabled(false); // Desabilitar o outro botão enquanto desenha a linha
-            // Desenhe a linha de São Paulo para Amazonas
-            desenharLinha(saoPauloCoordenadas, amazonasCoordenadas);
-        } else {
-            rbtAmazonas.setEnabled(true); // Habilitar o outro botão de novo
-            repaint();
-        }
-    }//GEN-LAST:event_rbtSaoPauloMouseClicked
-
-    private void rbtAmazonasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rbtAmazonasMouseClicked
-        if (rbtAmazonas.isSelected() && rbtSaoPaulo.isSelected()) {
-            rbtSaoPaulo.setEnabled(false); // Desabilitar o outro botão enquanto desenha a linha
-            // Desenhe a linha de Amazonas para São Paulo
-            desenharLinha(amazonasCoordenadas, saoPauloCoordenadas);
-        } else {
-            rbtSaoPaulo.setEnabled(true); // Habilitar o outro botão de novo
-            repaint();
-        }
-    }//GEN-LAST:event_rbtAmazonasMouseClicked
+    private void pnlPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPrincipalMouseClicked
+        
+    }//GEN-LAST:event_pnlPrincipalMouseClicked
 
     public static void main(String args[]) {
 
@@ -137,8 +115,12 @@ public class RotasAerasBrasilView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup btgEstados;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JRadioButton rbtAmazonas;
+    private javax.swing.JRadioButton rbtMinasGerais;
+    private javax.swing.JRadioButton rbtRioDeJaneiro;
     private javax.swing.JRadioButton rbtSaoPaulo;
     // End of variables declaration//GEN-END:variables
 }

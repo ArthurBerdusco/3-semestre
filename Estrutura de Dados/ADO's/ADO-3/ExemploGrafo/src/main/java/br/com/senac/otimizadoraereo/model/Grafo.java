@@ -16,6 +16,10 @@ public class Grafo {
     private ArrayList<Vertice> vertices;
     private ArrayList<Aresta> arestas;
 
+    public ArrayList<Aresta> getArestas() {
+        return arestas;
+    }
+
     public Grafo(ArrayList<Vertice> vertices, ArrayList<Aresta> arestas) {
         this.vertices = vertices;
         this.arestas = arestas;
