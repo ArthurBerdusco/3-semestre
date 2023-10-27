@@ -1,0 +1,15 @@
+Usaremos java fx nas proximas aulas para criar interfaces e aplicar os conceitos aprendidos
+
+
+dados / interface /regra de negocio / MVC
+
+xml - vbox java fx vbox é um container vertical para alinhamento
+
+
+target é criado apos executar o codigo, não configurar
+
+Builder é um design patter de criação de objetos - construtor flexivel - maneira de facilitar a criação de objetos
+
+
+scenebuilder
+ 
