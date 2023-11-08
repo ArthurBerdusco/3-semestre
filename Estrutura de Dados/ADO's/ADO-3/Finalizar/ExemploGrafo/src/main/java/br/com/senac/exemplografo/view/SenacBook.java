@@ -7,18 +7,21 @@ import br.com.senac.exemplografo.model.Usuario;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 public class SenacBook extends javax.swing.JFrame {
 
     Grafo<Usuario> grafo;
+    Vertice<Usuario> usuarioSelecionado;
 
     public SenacBook() {
-
-        initComponents();
         carregarDados();
+        initComponents();
+
     }
 
     public void carregarDados() {
+
         this.grafo = new Grafo<Usuario>();
 
         var user1 = new Usuario("Paulo");
@@ -33,6 +36,7 @@ public class SenacBook extends javax.swing.JFrame {
         grafo.adicionarVertice(user3);
         grafo.adicionarVertice(user4);
         grafo.adicionarVertice(user5);
+        grafo.adicionarVertice(user6);
 
         grafo.adicionarAresta(1.0, user1, user2);
         grafo.adicionarAresta(3.0, user2, user5);
@@ -40,24 +44,90 @@ public class SenacBook extends javax.swing.JFrame {
         grafo.adicionarAresta(1.0, user3, user4);
         grafo.adicionarAresta(1.0, user1, user3);
         grafo.adicionarAresta(1.0, user3, user1);
-
-        atualizarUsuarios();
+        grafo.adicionarAresta(3.0, user4, user6);
 
         grafo.buscaEmLargura();
         grafo.buscarAmigos(user1);
     }
 
     public void atualizarUsuarios() {
+
+
         for (Vertice<Usuario> user : grafo.getVertices()) {
             cboUsuario.addItem(user.toString());
         }
+
+        if (usuarioSelecionado == null) {
+            return;
+        }
+
+        lblQntAmigos.setText(String.valueOf(usuarioSelecionado.getArestasSaida().size()));
+
+    }
+
+    public void atualizarAmigos() {
+        if (usuarioSelecionado == null) {
+            return;
+        }
+
+        DefaultListModel<String> modelAmigos = new DefaultListModel<>();
+        lstAmigos.setModel(modelAmigos);
+
+        for (Aresta<Usuario> amigo : usuarioSelecionado.getArestasSaida()) {
+            modelAmigos.addElement(amigo.getFim().toString());
+        }
+    }
+
+    public void atualizarSugestoes() {
+
+        Set<Usuario> amigosDoAmigoSet = new HashSet<>();
+
+        if (usuarioSelecionado == null) {
+            return;
+        }
+
+        DefaultListModel<String> modelSugestao = new DefaultListModel<>();
+        lstSugestao.setModel(modelSugestao);
+
+        if (usuarioSelecionado.getArestasSaida().size() <= 0) {
+            for (Vertice<Usuario> recomendacao : grafo.getVertices()) {
+                modelSugestao.addElement(recomendacao.getDado().getNome());
+            }
+            return;
+            
+        }
+
+        Set<Usuario> amigosDoUsuarioSelecionado = new HashSet<>();
+        for (Aresta<Usuario> amigo : usuarioSelecionado.getArestasSaida()) {
+            amigosDoUsuarioSelecionado.add(amigo.getFim().getDado());
+        }
+
+        for (Aresta<Usuario> amigo : usuarioSelecionado.getArestasSaida()) {
+            Vertice<Usuario> amigoVertice = amigo.getFim();
+
+            for (Aresta<Usuario> arestaDoAmigo : amigoVertice.getArestasSaida()) {
+                Vertice<Usuario> amigoDoAmigo = arestaDoAmigo.getFim();
+                Usuario amigoDoAmigoUsuario = amigoDoAmigo.getDado();
+
+                // Verifica se o amigoDoAmigo não é o usuário selecionado e não é um amigo direto do usuário selecionado.
+                if (!amigoDoAmigoUsuario.equals(usuarioSelecionado.getDado())
+                        && !amigosDoUsuarioSelecionado.contains(amigoDoAmigoUsuario)) {
+                    amigosDoAmigoSet.add(amigoDoAmigoUsuario);
+                }
+            }
+        }
+
+        for (Usuario amigoDoAmigo : amigosDoAmigoSet) {
+            modelSugestao.addElement(amigoDoAmigo.toString());
+        }
+
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabNav = new javax.swing.JTabbedPane();
         pnlUser = new javax.swing.JPanel();
         lblUsuario = new javax.swing.JLabel();
         cboUsuario = new javax.swing.JComboBox<>();
@@ -65,9 +135,9 @@ public class SenacBook extends javax.swing.JFrame {
         lblQntAmigos = new javax.swing.JLabel();
         btnCadastrar = new javax.swing.JButton();
         pnlAmigos = new javax.swing.JPanel();
-        btnDesfazer = new javax.swing.JToggleButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstAmigos = new javax.swing.JList<>();
+        jButton3 = new javax.swing.JButton();
         pnlSugestao = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstSugestao = new javax.swing.JList<>();
@@ -81,9 +151,17 @@ public class SenacBook extends javax.swing.JFrame {
         setTitle("SenacBook :)");
         setResizable(false);
 
+        tabNav.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tabNavStateChanged(evt);
+            }
+        });
+
+        pnlUser.setName("Usuario"); // NOI18N
+
         lblUsuario.setText("Usuário:");
 
-        cboUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione: " }));
+        cboUsuario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione:" }));
         cboUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboUsuarioActionPerformed(evt);
@@ -95,6 +173,11 @@ public class SenacBook extends javax.swing.JFrame {
         lblQntAmigos.setText("0");
 
         btnCadastrar.setText("Cadastrar Usuário");
+        btnCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadastrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlUserLayout = new javax.swing.GroupLayout(pnlUser);
         pnlUser.setLayout(pnlUserLayout);
@@ -133,37 +216,41 @@ public class SenacBook extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Usuario", pnlUser);
+        tabNav.addTab("Usuario", pnlUser);
 
-        btnDesfazer.setBackground(new java.awt.Color(255, 51, 51));
-        btnDesfazer.setText("Desfazer");
+        pnlAmigos.setName("Amigos"); // NOI18N
 
         jScrollPane2.setViewportView(lstAmigos);
+
+        jButton3.setBackground(new java.awt.Color(255, 51, 51));
+        jButton3.setText("Desfazer");
 
         javax.swing.GroupLayout pnlAmigosLayout = new javax.swing.GroupLayout(pnlAmigos);
         pnlAmigos.setLayout(pnlAmigosLayout);
         pnlAmigosLayout.setHorizontalGroup(
             pnlAmigosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAmigosLayout.createSequentialGroup()
-                .addContainerGap(97, Short.MAX_VALUE)
-                .addComponent(btnDesfazer, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63)
+                .addContainerGap(96, Short.MAX_VALUE)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         pnlAmigosLayout.setVerticalGroup(
             pnlAmigosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAmigosLayout.createSequentialGroup()
+                .addGap(181, 181, 181)
+                .addComponent(jButton3)
+                .addContainerGap(184, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAmigosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addComponent(jScrollPane2)
                 .addContainerGap())
-            .addGroup(pnlAmigosLayout.createSequentialGroup()
-                .addGap(166, 166, 166)
-                .addComponent(btnDesfazer)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Consultar Amigos", pnlAmigos);
+        tabNav.addTab("Consultar Amigos", pnlAmigos);
+
+        pnlSugestao.setName("Sugestao"); // NOI18N
 
         jScrollPane1.setViewportView(lstSugestao);
 
@@ -225,19 +312,19 @@ public class SenacBook extends javax.swing.JFrame {
                 .addGap(36, 36, 36))
         );
 
-        jTabbedPane1.addTab("Recomendações de amizade", pnlSugestao);
+        tabNav.addTab("Recomendações de amizade", pnlSugestao);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tabNav)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(tabNav)
                 .addContainerGap())
         );
 
@@ -246,43 +333,19 @@ public class SenacBook extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cboUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboUsuarioActionPerformed
-        if (cboUsuario.getSelectedIndex() != 0) {
-            Vertice<Usuario> verticeSelecionado = grafo.getVertice(cboUsuario.getSelectedItem().toString());
-            DefaultListModel<String> modelAmigos = new DefaultListModel<>();
-            DefaultListModel<String> modelSugestao = new DefaultListModel<>();
 
-            lstAmigos.setModel(modelAmigos);
-            lstSugestao.setModel(modelSugestao);
-            lblQntAmigos.setText(String.valueOf(verticeSelecionado.getArestasSaida().size()));
-            setTitle("SenacBook ---> " + cboUsuario.getSelectedItem());
-
-            for (Aresta<Usuario> amigo : verticeSelecionado.getArestasSaida()) {
-                modelAmigos.addElement(amigo.getFim().toString());
-            }
-
-            Set<Usuario> amigosDoAmigoSet = new HashSet<>(); // Usando um Set para evitar duplicatas
-            
-
-            for (Aresta<Usuario> amigo : verticeSelecionado.getArestasSaida()) {
-                Vertice<Usuario> amigoVertice = amigo.getFim();
-
-                for (Aresta<Usuario> arestaDoAmigo : amigoVertice.getArestasSaida()) {
-                    Vertice<Usuario> amigoDoAmigo = arestaDoAmigo.getFim();
-
-                    if (!amigoDoAmigo.getDado().equals(verticeSelecionado.getDado())) {
-                        amigosDoAmigoSet.add(amigoDoAmigo.getDado());
-                    }
-                }
-            }
-
-            for (Usuario amigoDoAmigo : amigosDoAmigoSet) {
-                modelSugestao.addElement(amigoDoAmigo.toString());
-            }
-
-        } else {
+        if (cboUsuario.getSelectedIndex() <= 0) {
             setTitle("SenacBook :)");
             lblQntAmigos.setText("0");
+            return;
         }
+
+        Vertice<Usuario> verticeSelecionado = grafo.getVertice(cboUsuario.getSelectedItem().toString());
+        usuarioSelecionado = verticeSelecionado;
+
+        lblQntAmigos.setText(String.valueOf(verticeSelecionado.getArestasSaida().size()));
+        setTitle("SenacBook ---> " + cboUsuario.getSelectedItem());
+
 
     }//GEN-LAST:event_cboUsuarioActionPerformed
 
@@ -305,6 +368,34 @@ public class SenacBook extends javax.swing.JFrame {
         modelSugestao.removeElement(lstSugestao.getSelectedValue());
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
+        String nomeUsuario = JOptionPane.showInputDialog("Nome do usuário:");
+
+        if (nomeUsuario == null) {
+            return;
+        }
+
+        grafo.adicionarVertice(new Usuario(nomeUsuario));
+        atualizarUsuarios();
+    }//GEN-LAST:event_btnCadastrarActionPerformed
+
+    private void tabNavStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabNavStateChanged
+
+        String tabNome = tabNav.getSelectedComponent().getName();
+
+        if (tabNome.equals("Usuario")) {
+            atualizarUsuarios();
+        }
+
+        if (tabNome.equals("Amigos")) {
+            atualizarAmigos();
+        }
+
+        if (tabNome.equals("Sugestao")) {
+            atualizarSugestoes();
+        }
+    }//GEN-LAST:event_tabNavStateChanged
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -316,15 +407,14 @@ public class SenacBook extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
-    private javax.swing.JToggleButton btnDesfazer;
     private javax.swing.JComboBox<String> cboUsuario;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblAmigos;
     private javax.swing.JLabel lblQntAmigos;
@@ -334,5 +424,6 @@ public class SenacBook extends javax.swing.JFrame {
     private javax.swing.JPanel pnlAmigos;
     private javax.swing.JPanel pnlSugestao;
     private javax.swing.JPanel pnlUser;
+    private javax.swing.JTabbedPane tabNav;
     // End of variables declaration//GEN-END:variables
 }
