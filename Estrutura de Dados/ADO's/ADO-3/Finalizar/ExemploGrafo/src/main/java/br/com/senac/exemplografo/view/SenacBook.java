@@ -60,14 +60,12 @@ public class SenacBook extends javax.swing.JFrame {
 
         if (usuarioSelecionado == null) {
             return;
-        }else{
-            
-            cboUsuario.setSelectedItem( usuarioSelecionado.getDado().getNome());
+        } else {
+
+            cboUsuario.setSelectedItem(usuarioSelecionado.getDado().getNome());
             setTitle("SenacBook ---> " + usuarioSelecionado.getDado().getNome());
             lblQntAmigos.setText(String.valueOf(usuarioSelecionado.getArestasSaida().size()));
         }
-        
-        
 
     }
 
@@ -100,31 +98,13 @@ public class SenacBook extends javax.swing.JFrame {
                 modelSugestao.addElement(recomendacao.getDado().getNome());
             }
             return;
-
         }
 
-        Set<Usuario> amigosDoUsuarioSelecionado = new HashSet<>();
-        for (Aresta<Usuario> amigo : usuarioSelecionado.getArestasSaida()) {
-            amigosDoUsuarioSelecionado.add(amigo.getFim().getDado());
-        }
-
-        for (Aresta<Usuario> amigo : usuarioSelecionado.getArestasSaida()) {
-            Vertice<Usuario> amigoVertice = amigo.getFim();
-
-            for (Aresta<Usuario> arestaDoAmigo : amigoVertice.getArestasSaida()) {
-                Vertice<Usuario> amigoDoAmigo = arestaDoAmigo.getFim();
-                Usuario amigoDoAmigoUsuario = amigoDoAmigo.getDado();
-
-                // Verifica se o amigoDoAmigo não é o usuário selecionado e não é um amigo direto do usuário selecionado.
-                if (!amigoDoAmigoUsuario.equals(usuarioSelecionado.getDado())
-                        && !amigosDoUsuarioSelecionado.contains(amigoDoAmigoUsuario)) {
-                    amigosDoAmigoSet.add(amigoDoAmigoUsuario);
-                }
+        for (Vertice<Usuario> sugestao : grafo.buscaEmLargura(usuarioSelecionado.getDado().getNome())) {
+            if (sugestao.getDado().getNome() != usuarioSelecionado.getDado().getNome()) {
+                modelSugestao.addElement(sugestao.getDado().getNome());
             }
-        }
 
-        for (Usuario amigoDoAmigo : amigosDoAmigoSet) {
-            modelSugestao.addElement(amigoDoAmigo.toString());
         }
 
     }
@@ -396,7 +376,7 @@ public class SenacBook extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void tabNavStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabNavStateChanged
-                
+
         String tabNome = tabNav.getSelectedComponent().getName();
 
         if (tabNome.equals("Usuario")) {
@@ -417,14 +397,14 @@ public class SenacBook extends javax.swing.JFrame {
 
         DefaultListModel<String> modelSugestao = new DefaultListModel<>();
         lstSugestao.setModel(modelSugestao);
-        
+
         Vertice<Usuario> sugestao = grafo.getVertice(procurar);
-        
-        if(sugestao == null){
+
+        if (sugestao == null) {
             JOptionPane.showMessageDialog(this, "Essa pessoa não está cadastrada", "Não localizado", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         modelSugestao.removeAllElements();
         modelSugestao.addElement(sugestao.getDado().getNome());
 
@@ -433,19 +413,18 @@ public class SenacBook extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         String title = getTitle();
         String nome = title.substring(title.lastIndexOf("--->") + 5).trim();
-        
+
         Usuario usuario = grafo.getVertice(nome).getDado();
         Usuario amigo = grafo.getVertice(lstAmigos.getSelectedValue()).getDado();
-        
+
         grafo.removerAresta(usuario, amigo);
-        
+
         DefaultListModel<String> modelAmigo = (DefaultListModel<String>) lstAmigos.getModel();
         lstAmigos.setModel(modelAmigo);
-        
+
         modelAmigo.removeElement(amigo.getNome());
-        
-        
-        
+
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     public static void main(String args[]) {
