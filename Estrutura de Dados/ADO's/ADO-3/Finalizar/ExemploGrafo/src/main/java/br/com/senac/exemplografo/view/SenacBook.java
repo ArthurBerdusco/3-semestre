@@ -4,6 +4,7 @@ import br.com.senac.exemplografo.Aresta;
 import br.com.senac.exemplografo.Grafo;
 import br.com.senac.exemplografo.Vertice;
 import br.com.senac.exemplografo.model.Usuario;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.DefaultListModel;
@@ -13,6 +14,7 @@ public class SenacBook extends javax.swing.JFrame {
 
     Grafo<Usuario> grafo;
     Vertice<Usuario> usuarioSelecionado;
+    Set<Vertice<Usuario>> amigosDoUsuario;
 
     public SenacBook() {
         carregarDados();
@@ -66,7 +68,6 @@ public class SenacBook extends javax.swing.JFrame {
             setTitle("SenacBook ---> " + usuarioSelecionado.getDado().getNome());
             lblQntAmigos.setText(String.valueOf(usuarioSelecionado.getArestasSaida().size()));
         }
-
     }
 
     public void atualizarAmigos() {
@@ -77,14 +78,14 @@ public class SenacBook extends javax.swing.JFrame {
         DefaultListModel<String> modelAmigos = new DefaultListModel<>();
         lstAmigos.setModel(modelAmigos);
 
+        amigosDoUsuario = new HashSet<Vertice<Usuario>>();
         for (Aresta<Usuario> amigo : usuarioSelecionado.getArestasSaida()) {
+            amigosDoUsuario.add(amigo.getFim());
             modelAmigos.addElement(amigo.getFim().toString());
         }
     }
 
     public void atualizarSugestoes() {
-
-        Set<Usuario> amigosDoAmigoSet = new HashSet<>();
 
         if (usuarioSelecionado == null) {
             return;
@@ -95,13 +96,15 @@ public class SenacBook extends javax.swing.JFrame {
 
         if (usuarioSelecionado.getArestasSaida().size() <= 0) {
             for (Vertice<Usuario> recomendacao : grafo.getVertices()) {
-                modelSugestao.addElement(recomendacao.getDado().getNome());
+                if (!recomendacao.equals(usuarioSelecionado)) {
+                    modelSugestao.addElement(recomendacao.getDado().getNome());
+                }
             }
             return;
         }
 
         for (Vertice<Usuario> sugestao : grafo.buscaEmLargura(usuarioSelecionado.getDado().getNome())) {
-            if (sugestao.getDado().getNome() != usuarioSelecionado.getDado().getNome()) {
+            if (sugestao.getDado().getNome() != usuarioSelecionado.getDado().getNome() && !amigosDoUsuario.contains(sugestao)) {
                 modelSugestao.addElement(sugestao.getDado().getNome());
             }
 
@@ -123,7 +126,7 @@ public class SenacBook extends javax.swing.JFrame {
         pnlAmigos = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstAmigos = new javax.swing.JList<>();
-        jButton3 = new javax.swing.JButton();
+        btnDesfazer = new javax.swing.JButton();
         pnlSugestao = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstSugestao = new javax.swing.JList<>();
@@ -208,11 +211,11 @@ public class SenacBook extends javax.swing.JFrame {
 
         jScrollPane2.setViewportView(lstAmigos);
 
-        jButton3.setBackground(new java.awt.Color(255, 51, 51));
-        jButton3.setText("Desfazer");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnDesfazer.setBackground(new java.awt.Color(255, 51, 51));
+        btnDesfazer.setText("Desfazer");
+        btnDesfazer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnDesfazerActionPerformed(evt);
             }
         });
 
@@ -222,7 +225,7 @@ public class SenacBook extends javax.swing.JFrame {
             pnlAmigosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAmigosLayout.createSequentialGroup()
                 .addContainerGap(96, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDesfazer, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -231,7 +234,7 @@ public class SenacBook extends javax.swing.JFrame {
             pnlAmigosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAmigosLayout.createSequentialGroup()
                 .addGap(181, 181, 181)
-                .addComponent(jButton3)
+                .addComponent(btnDesfazer)
                 .addContainerGap(184, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAmigosLayout.createSequentialGroup()
                 .addContainerGap()
@@ -342,6 +345,12 @@ public class SenacBook extends javax.swing.JFrame {
         lblQntAmigos.setText(String.valueOf(verticeSelecionado.getArestasSaida().size()));
         setTitle("SenacBook ---> " + cboUsuario.getSelectedItem());
 
+        amigosDoUsuario = new HashSet<Vertice<Usuario>>();
+
+        for (Aresta<Usuario> amigo : usuarioSelecionado.getArestasSaida()) {
+            amigosDoUsuario.add(amigo.getFim());
+        }
+
 
     }//GEN-LAST:event_cboUsuarioActionPerformed
 
@@ -410,7 +419,7 @@ public class SenacBook extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesfazerActionPerformed
         String title = getTitle();
         String nome = title.substring(title.lastIndexOf("--->") + 5).trim();
 
@@ -425,7 +434,7 @@ public class SenacBook extends javax.swing.JFrame {
         modelAmigo.removeElement(amigo.getNome());
 
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnDesfazerActionPerformed
 
     public static void main(String args[]) {
 
@@ -438,10 +447,10 @@ public class SenacBook extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
+    private javax.swing.JButton btnDesfazer;
     private javax.swing.JComboBox<String> cboUsuario;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;

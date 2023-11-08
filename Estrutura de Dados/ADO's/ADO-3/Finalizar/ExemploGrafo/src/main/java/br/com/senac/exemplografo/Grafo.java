@@ -88,7 +88,6 @@ public class Grafo<TIPO> {
         ArrayList<Vertice<TIPO>> fila = new ArrayList<Vertice<TIPO>>();
         Vertice<TIPO> atual = getVertice(usuario);
         marcados.add(atual);
-        System.out.println(atual.getDado());
         fila.add(atual);
         ArrayList<Vertice<TIPO>> resultado = new ArrayList<Vertice<TIPO>>(); 
 
@@ -99,7 +98,6 @@ public class Grafo<TIPO> {
                 Vertice<TIPO> proximo = visitado.getArestasSaida().get(i).getFim();
                 if (!marcados.contains(proximo)) {
                     marcados.add(proximo);
-                    System.out.println(proximo.getDado());
                     fila.add(proximo);
                 }
             }
