@@ -46,12 +46,13 @@ public class SenacBook extends javax.swing.JFrame {
         grafo.adicionarAresta(1.0, user3, user1);
         grafo.adicionarAresta(3.0, user4, user6);
 
-        grafo.buscaEmLargura();
+        grafo.buscaEmLargura(user1.getNome());
         grafo.buscarAmigos(user1);
     }
 
     public void atualizarUsuarios() {
-
+        cboUsuario.removeAllItems();
+        cboUsuario.addItem("Selecione:");
 
         for (Vertice<Usuario> user : grafo.getVertices()) {
             cboUsuario.addItem(user.toString());
@@ -59,9 +60,14 @@ public class SenacBook extends javax.swing.JFrame {
 
         if (usuarioSelecionado == null) {
             return;
+        }else{
+            
+            cboUsuario.setSelectedItem( usuarioSelecionado.getDado().getNome());
+            setTitle("SenacBook ---> " + usuarioSelecionado.getDado().getNome());
+            lblQntAmigos.setText(String.valueOf(usuarioSelecionado.getArestasSaida().size()));
         }
-
-        lblQntAmigos.setText(String.valueOf(usuarioSelecionado.getArestasSaida().size()));
+        
+        
 
     }
 
@@ -94,7 +100,7 @@ public class SenacBook extends javax.swing.JFrame {
                 modelSugestao.addElement(recomendacao.getDado().getNome());
             }
             return;
-            
+
         }
 
         Set<Usuario> amigosDoUsuarioSelecionado = new HashSet<>();
@@ -144,7 +150,7 @@ public class SenacBook extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        txtProcurar = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -224,6 +230,11 @@ public class SenacBook extends javax.swing.JFrame {
 
         jButton3.setBackground(new java.awt.Color(255, 51, 51));
         jButton3.setText("Desfazer");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlAmigosLayout = new javax.swing.GroupLayout(pnlAmigos);
         pnlAmigos.setLayout(pnlAmigosLayout);
@@ -259,6 +270,11 @@ public class SenacBook extends javax.swing.JFrame {
         jLabel4.setText("Procurar:");
 
         jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(51, 51, 255));
         jButton2.setText("Adicionar");
@@ -278,7 +294,7 @@ public class SenacBook extends javax.swing.JFrame {
                         .addGap(24, 24, 24)
                         .addGroup(pnlSugestaoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1))
+                            .addComponent(txtProcurar))
                         .addGap(18, 18, 18))
                     .addGroup(pnlSugestaoLayout.createSequentialGroup()
                         .addGap(88, 88, 88)
@@ -303,7 +319,7 @@ public class SenacBook extends javax.swing.JFrame {
                     .addGroup(pnlSugestaoLayout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtProcurar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -380,7 +396,7 @@ public class SenacBook extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void tabNavStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tabNavStateChanged
-
+                
         String tabNome = tabNav.getSelectedComponent().getName();
 
         if (tabNome.equals("Usuario")) {
@@ -395,6 +411,42 @@ public class SenacBook extends javax.swing.JFrame {
             atualizarSugestoes();
         }
     }//GEN-LAST:event_tabNavStateChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String procurar = txtProcurar.getText();
+
+        DefaultListModel<String> modelSugestao = new DefaultListModel<>();
+        lstSugestao.setModel(modelSugestao);
+        
+        Vertice<Usuario> sugestao = grafo.getVertice(procurar);
+        
+        if(sugestao == null){
+            JOptionPane.showMessageDialog(this, "Essa pessoa não está cadastrada", "Não localizado", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        modelSugestao.removeAllElements();
+        modelSugestao.addElement(sugestao.getDado().getNome());
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        String title = getTitle();
+        String nome = title.substring(title.lastIndexOf("--->") + 5).trim();
+        
+        Usuario usuario = grafo.getVertice(nome).getDado();
+        Usuario amigo = grafo.getVertice(lstAmigos.getSelectedValue()).getDado();
+        
+        grafo.removerAresta(usuario, amigo);
+        
+        DefaultListModel<String> modelAmigo = (DefaultListModel<String>) lstAmigos.getModel();
+        lstAmigos.setModel(modelAmigo);
+        
+        modelAmigo.removeElement(amigo.getNome());
+        
+        
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     public static void main(String args[]) {
 
@@ -415,7 +467,6 @@ public class SenacBook extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblAmigos;
     private javax.swing.JLabel lblQntAmigos;
     private javax.swing.JLabel lblUsuario;
@@ -425,5 +476,6 @@ public class SenacBook extends javax.swing.JFrame {
     private javax.swing.JPanel pnlSugestao;
     private javax.swing.JPanel pnlUser;
     private javax.swing.JTabbedPane tabNav;
+    private javax.swing.JTextField txtProcurar;
     // End of variables declaration//GEN-END:variables
 }

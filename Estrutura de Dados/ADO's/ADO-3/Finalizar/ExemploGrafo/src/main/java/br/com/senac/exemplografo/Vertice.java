@@ -4,6 +4,7 @@ import br.com.senac.exemplografo.model.Usuario;
 import java.util.ArrayList;
 
 public class Vertice<TIPO> {
+
     private TIPO usuario;
     private ArrayList<Aresta<TIPO>> arestasEntrada;
     private ArrayList<Aresta<TIPO>> arestasSaida;
@@ -37,17 +38,26 @@ public class Vertice<TIPO> {
     public void setArestasSaida(ArrayList<Aresta<TIPO>> arestasSaida) {
         this.arestasSaida = arestasSaida;
     }
-    
-    public void adicionarArestaEntrada(Aresta<TIPO> aresta){
+
+    public void adicionarArestaEntrada(Aresta<TIPO> aresta) {
         this.arestasEntrada.add(aresta);
     }
-    public void adicionarArestaSaida(Aresta<TIPO> aresta){
+
+    public void adicionarArestaSaida(Aresta<TIPO> aresta) {
         this.arestasSaida.add(aresta);
+    }
+
+    public void removerArestaSaida(Aresta<TIPO> aresta) {
+        this.arestasSaida.remove(aresta);
+    }
+
+    public void removerArestaEntrada(Aresta<TIPO> aresta) {
+        this.arestasEntrada.remove(aresta);
     }
 
     @Override
     public String toString() {
-        Usuario user = (Usuario)this.usuario;
+        Usuario user = (Usuario) this.usuario;
         return user.getNome();
     }
 }
