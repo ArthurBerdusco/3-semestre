@@ -1,4 +1,4 @@
-package br.com.senac.exemplografo;
+package br.com.senac.connectsenac;
 
 import java.util.ArrayList;
 
@@ -85,7 +85,7 @@ public class Grafo<TIPO> {
         return vertice;
     }
 
-    //Metodos de busca
+    
     public ArrayList<Vertice<TIPO>> buscaEmLargura(String usuario) {
         ArrayList<Vertice<TIPO>> marcados = new ArrayList<Vertice<TIPO>>();
         ArrayList<Vertice<TIPO>> fila = new ArrayList<Vertice<TIPO>>();
@@ -96,7 +96,7 @@ public class Grafo<TIPO> {
 
         while (fila.size() > 0) {
             Vertice<TIPO> visitado = fila.get(0);
-            resultado.add(visitado); // Adicione o vértice visitado à lista de resultados
+            resultado.add(visitado);
             for (int i = 0; i < visitado.getArestasSaida().size(); i++) {
                 Vertice<TIPO> proximo = visitado.getArestasSaida().get(i).getFim();
                 if (!marcados.contains(proximo)) {

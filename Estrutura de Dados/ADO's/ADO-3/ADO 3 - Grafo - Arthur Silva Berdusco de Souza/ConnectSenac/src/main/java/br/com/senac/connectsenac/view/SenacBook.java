@@ -1,10 +1,9 @@
-package br.com.senac.exemplografo.view;
+package br.com.senac.connectsenac.view;
 
-import br.com.senac.exemplografo.Aresta;
-import br.com.senac.exemplografo.Grafo;
-import br.com.senac.exemplografo.Vertice;
-import br.com.senac.exemplografo.model.Usuario;
-import java.util.ArrayList;
+import br.com.senac.connectsenac.Aresta;
+import br.com.senac.connectsenac.Grafo;
+import br.com.senac.connectsenac.Vertice;
+import br.com.senac.connectsenac.model.Usuario;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.DefaultListModel;
@@ -411,6 +410,12 @@ public class SenacBook extends javax.swing.JFrame {
         if (lstSugestao.getSelectedIndex() == -1) {
             return;
         }
+        
+        if(usuarioSelecionado.equals(grafo.getVertice(lstSugestao.getSelectedValue()))){
+            JOptionPane.showMessageDialog(this, "Não é possivel adicionar você mesmo", "Erro ao adicionar", JOptionPane.WARNING_MESSAGE);
+            
+            return;
+        }
 
         String title = getTitle();
         String nome = title.substring(title.lastIndexOf("--->") + 5).trim();
@@ -422,8 +427,6 @@ public class SenacBook extends javax.swing.JFrame {
 
         DefaultListModel<String> modelSugestao = (DefaultListModel<String>) lstSugestao.getModel();
 
-        
-        // Remove apenas o amigo selecionado da lista de sugestões
         modelSugestao.removeElement(lstSugestao.getSelectedValue());
         atualizarAmigos();
         atualizarSugestoes();
@@ -478,6 +481,12 @@ public class SenacBook extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnDesfazerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesfazerActionPerformed
+        
+        if(lstAmigos.getSelectedIndex() == -1){
+            JOptionPane.showMessageDialog(this, "Selecione um amigo para desfazer a amizade", "Erro", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
         String title = getTitle();
         String nome = title.substring(title.lastIndexOf("--->") + 5).trim();
 
