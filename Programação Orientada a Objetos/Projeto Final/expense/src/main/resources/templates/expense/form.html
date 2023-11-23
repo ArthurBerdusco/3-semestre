@@ -2,10 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
     <link rel="stylesheet" href="../style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario</title>
 </head>
 
 <body>
@@ -18,10 +19,12 @@
             <!--DATA-->
             <label for="date">Data: </label>
             <input type="date" th:field="*{date}" min="2000-01-02"  max="2100-12-31">
+            <span th:errors="*{date}"></span>
 
             <!--CATEGORIA-->
             <label for="category">Categoria:</label>
             <select th:field="*{category}">
+                <option value="Selecione">Selecione</option>
                 <option value="Conta de Luz">Conta de Luz</option>
                 <option value="Faculdade">Faculdade</option>
                 <option value="Estacionamento">Estacionamento</option>
@@ -30,6 +33,7 @@
                 <option value="Comida">Comida</option>
                 <option value="Gasolina">Gasolina</option>
             </select>
+            <span th:errors="*{category}"></span>
 
             <!--DESCRICAO-->
             <label for="description">Descrição</label>
@@ -44,12 +48,14 @@
             <!--FORMA DE PAGAMENTO-->
             <label for="typePayment">Forma de Pagamento:</label>
             <select th:field="*{typePayment}">
+                <option value="Selecione">Selecione</option>
                 <option value="Débito">Débito</option>
                 <option value="Crédito">Crédito</option>
             </select>
+            <span th:errors="*{typePayment}"></span>
 
             <div class="actions">
-                <a href="/expense" class="btn red" onclick="localStorage=null">cancelar</a>
+                <button type="button" class="btn red" onclick="window.location.href='/expense'">cancelar</button>
                 <button class="btn blue">salvar</button>
             </div>
 

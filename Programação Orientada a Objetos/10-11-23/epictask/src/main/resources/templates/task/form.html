@@ -16,7 +16,7 @@
         <form action="" method="post" th:object="${task}">
             <label for="title">Título</label>
             <input type="text" th:field="*{title}">
-            <span th:errors="*{title}"></span>
+                
 
             <label for="description">Descrição</label>
             <textarea th:field="*{description}"></textarea>

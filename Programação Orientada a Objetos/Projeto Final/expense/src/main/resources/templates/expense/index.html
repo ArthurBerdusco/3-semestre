@@ -14,8 +14,8 @@
         <h1>Magic Expense</h1>
 
         <form method="get" action="/expense" id="form">
-            <input type="month" name="month" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM')}"
-                onchange="submitForm(event)">
+            <h2>Gestão de despesas por mês</h2>
+            <input type="month" name="month" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM')}" onchange="submitForm(event)">
         </form>
 
         <a href="/expense/new" class="btn">Adicionar Despesa</a>
@@ -29,7 +29,7 @@
         </div>
 
         <h3>Total de Despesas para o Mês:
-            <span th:text="${totalExpenses}"></span>
+            <span th:text="${totalExpenses}" class="total-expenses"></span>
         </h3>
 
 

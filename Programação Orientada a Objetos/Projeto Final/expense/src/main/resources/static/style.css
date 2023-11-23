@@ -3,10 +3,11 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 :root {
-	--dark-color: #1F1F1F;
+	--dark-color: #cfcfcf;
+	--secundary-color: rgb(245, 196, 71);
 	--active-color: #E23221;
 	--primary-font: 'Pridi', serif;
-	--font-color: rgba(255, 255, 255, 0.8);
+	--font-color: rgba(33, 33, 33, 0.8);
 }
 
 * {
@@ -43,10 +44,17 @@ body {
 
 }
 
+h2 {
+	text-align: center;
+	margin-bottom: 10px;
+}
+
 a {
 	text-decoration: none;
 	color: var(--font-color);
+	background-color: var(--secundary-color);
 }
+
 
 a:visited {
 	color: var(--font-color);
@@ -170,8 +178,20 @@ nav li a:hover {
 }
 
 form {
+	width: 30rem;
+	padding: 20px;
+	margin: 20px 0px;
 	display: flex;
 	flex-direction: column;
+	border-radius: 10px;
+	background-color: #ffffffc9;
+	box-shadow: -1px -1px 2px rgba(102, 102, 102, 0.25),
+	1px 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.total-expenses {
+	font-size: 2rem;
+	margin: 0px;
 }
 
 form span {
@@ -235,7 +255,6 @@ textarea.invalid {
 textarea {
 	resize: vertical;
 	height: 5rem;
-	width: 20rem;
 }
 
 .actions {
@@ -279,6 +298,7 @@ button.btn {
 }
 
 .card-expense {
+	background-color: rgb(27, 74, 163);
 	position: relative;
 	padding: 0.5rem 1rem;
 	border-radius: 8px;
