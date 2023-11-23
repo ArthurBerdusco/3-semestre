@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="content">
+        <h1>Magic Expense</h1>
+
+        <form method="get" action="/expense" id="form">
+            <input type="month" name="month" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM')}"
+                onchange="submitForm(event)">
+        </form>
+
+        <a href="/expense/new" class="btn">Adicionar Despesa</a>
+
+        <div class="expenses">
+            <a class="card-expense" th:each="expense : ${expenses}" th:href="expense+'/'+${expense.id}">
+                <h2 th:text="${expense.category}"></h2>
+                <p th:text="${expense.amount}"></p>
+                <p th:text="${#dates.format(expense.date, 'dd/MM/yyyy')}"></p>
+            </a>
+        </div>
+
+        <h3>Total de Despesas para o Mês:
+            <span th:text="${totalExpenses}"></span>
+        </h3>
+
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Ao carregar a página, verifique se há um valor salvo no localStorage
+                var storedMonth = localStorage.getItem("selectedMonth");
+                if (storedMonth) {
+                    // Se houver, defina o valor do input
+                    document.querySelector('input[name="month"]').value = storedMonth;
+                }
+            });
+
+            function submitForm(event) {
+                // Antes de enviar o formulário, salve o valor do mês no localStorage
+                var selectedMonth = document.querySelector('input[name="month"]').value;
+                localStorage.setItem("selectedMonth", selectedMonth);
+
+                // Envie o formulário
+                form.submit();
+            }
+        </script>
+
+    </div>
+
+</body>
+
+</html>

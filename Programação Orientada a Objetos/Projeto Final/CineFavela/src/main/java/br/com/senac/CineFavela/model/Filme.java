@@ -1,23 +1,19 @@
-package br.senac.sp.epictask.model;
-import java.time.LocalDateTime;
-import java.util.Date;
+package br.com.senac.CineFavela.model;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-//Builerplate - codigo repetitivo - contrutor getter setter / @Data
-//ORM (converte db em java e java em db)- JPA 
 @Entity
 @Data
-public class Agenda {
+public class Filme {
     
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    
+
     String nome;
-    Date data;
-    LocalDateTime hora;
+    String descricao;
 
 }
