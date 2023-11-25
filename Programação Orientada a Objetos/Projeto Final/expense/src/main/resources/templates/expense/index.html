@@ -21,11 +21,18 @@
         <a href="/expense/new" class="btn">Adicionar Despesa</a>
 
         <div class="expenses">
-            <a class="card-expense" th:each="expense : ${expenses}" th:href="expense+'/'+${expense.id}">
+            <div class="card-expense" th:each="expense : ${expenses}">
                 <h2 th:text="${expense.category}"></h2>
                 <p th:text="${expense.amount}"></p>
                 <p th:text="${#dates.format(expense.date, 'dd/MM/yyyy')}"></p>
-            </a>
+                <a href="expense/${expense.id}" class="btn">Verificar</a>
+                <div class="actions">
+                    <form style="color: inherit; background-color: #aeaeae; width: 7rem;" th:action="@{'/expense/{id}'(id=${expense.id})}" th:method="DELETE">
+                        <button class="btn red">apagar</button>
+                    </form>
+                </div>
+            </div>
+
         </div>
 
         <h3>Total de Despesas para o Mês:

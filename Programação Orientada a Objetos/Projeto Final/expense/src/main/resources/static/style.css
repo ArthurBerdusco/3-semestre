@@ -298,7 +298,7 @@ button.btn {
 }
 
 .card-expense {
-	background-color: rgb(27, 74, 163);
+	background-color: rgb(221, 90, 90);
 	position: relative;
 	padding: 0.5rem 1rem;
 	border-radius: 8px;
@@ -324,15 +324,13 @@ button.btn {
 	color: #FFD700;
 }
 
-
 .card-expense:hover {
 	transition: box-shadow 1s;
 }
 
 .card-expense:hover {
-	cursor: pointer;
-	box-shadow: -4px -4px 10px rgba(61, 74, 106, 0.25),
-		4px 4px 10px rgba(19, 202, 166, 0.25);
+	box-shadow: -4px -4px 10px rgba(24, 56, 235, 0.281),
+		4px 4px 10px rgba(236, 66, 24, 0.25);
 }
 
 .status {

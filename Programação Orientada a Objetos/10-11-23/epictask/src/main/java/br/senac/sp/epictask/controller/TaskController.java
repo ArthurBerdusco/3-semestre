@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import br.senac.sp.epictask.model.Task;
@@ -39,5 +41,13 @@ public class TaskController {
         //Redirecionar para olista /task
         return "redirect:/task";
     }
+
+    @DeleteMapping("{id}")// /task/2
+    public String delete(@PathVariable Long id){
+        repository.deleteById(id);
+        return "redirect:/task"; 
+    }
+
+
 
 }
