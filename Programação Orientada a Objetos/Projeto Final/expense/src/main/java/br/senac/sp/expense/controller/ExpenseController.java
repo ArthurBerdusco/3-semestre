@@ -27,25 +27,22 @@ public class ExpenseController {
 
     @GetMapping
     public String index(@RequestParam(name = "month", required = false) String date, Model model) {
+
         String year;
         String month;
 
         if (date != null) {
-            // Se a data foi fornecida, extrai ano e mês da string
             year = date.substring(0, 4);
             month = date.substring(5);
         } else {
-            // Caso contrário, use a data atual
-            year = String.valueOf(LocalDateTime.now().getYear());
-            month = String.valueOf(LocalDateTime.now().getMonthValue());
+            year = null;
+            month =null;
         }
-
         var list = repository.findByMonthAndYear(month, year);
         model.addAttribute("expenses", list);
 
         BigDecimal totalExpenses = new BigDecimal(0);
 
-        // Calcule o total de despesas para o mês selecionado
         for (Expense expense : list) {
             totalExpenses = totalExpenses.add(expense.getAmount());
         }
@@ -64,39 +61,6 @@ public class ExpenseController {
         if (result.hasErrors())
             return "expense/form";
         repository.save(expense);
-        return "redirect:/expense";
-    }
-
-    @GetMapping("{id}")
-    public String details(@PathVariable Long id, Model model) {
-        Expense expense = repository.findById(id).orElse(null);
-
-        if (expense == null) {
-            // Adicione tratamento para despesa não encontrada
-            return "redirect:/expense";
-        }
-
-        model.addAttribute("expense", expense);
-        return "expense/form";
-    }
-
-    @PostMapping("{id}")
-    public String save(@PathVariable Long id, @Valid Expense updatedExpense, BindingResult result) {
-        if (result.hasErrors())
-            return "expense/form";
-
-        // Obter a despesa existente pelo ID
-        Expense existingExpense = repository.findById(id).orElse(null);
-
-        if (existingExpense == null)
-            return "redirect:/expense";
-
-        // Atualizar os campos da despesa existente
-        existingExpense = updatedExpense;
-
-        // Salvar a despesa atualizada no banco de dados
-        repository.save(existingExpense);
-
         return "redirect:/expense";
     }
 
