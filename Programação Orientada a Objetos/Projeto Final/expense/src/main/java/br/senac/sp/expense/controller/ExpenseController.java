@@ -1,7 +1,7 @@
 package br.senac.sp.expense.controller;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,25 +28,23 @@ public class ExpenseController {
     @GetMapping
     public String index(@RequestParam(name = "month", required = false) String date, Model model) {
 
-        String year;
-        String month;
-
-        if (date != null) {
-            year = date.substring(0, 4);
-            month = date.substring(5);
+        List<Expense> list;
+        if (date != null && date != "") {
+            String year = date.substring(0, 4);
+            String month = date.substring(5);
+            list = repository.findByMonthAndYear(month, year);
         } else {
-            year = null;
-            month =null;
+            list = repository.findAllByOrderByDateAsc();
         }
-        var list = repository.findByMonthAndYear(month, year);
+    
         model.addAttribute("expenses", list);
-
+    
         BigDecimal totalExpenses = new BigDecimal(0);
-
+    
         for (Expense expense : list) {
             totalExpenses = totalExpenses.add(expense.getAmount());
         }
-
+    
         model.addAttribute("totalExpenses", totalExpenses);
         return "expense/index";
     }

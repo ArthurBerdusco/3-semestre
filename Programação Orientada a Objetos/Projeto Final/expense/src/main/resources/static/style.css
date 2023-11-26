@@ -3,11 +3,11 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 :root {
-	--dark-color: #cfcfcf;
-	--secundary-color: rgb(245, 196, 71);
+	--dark-color: #ededed;
+	--secundary-color: #47f55e;
 	--active-color: #E23221;
 	--primary-font: 'Pridi', serif;
-	--font-color: rgba(33, 33, 33, 0.8);
+	--font-color: rgba(28, 28, 28, 0.8);
 }
 
 * {
@@ -177,24 +177,19 @@ nav li a:hover {
 		1px 1px 2px rgba(0, 0, 0, 0.25);
 }
 
-form {
-	width: 30rem;
-	padding: 20px;
-	margin: 20px 0px;
-	display: flex;
-	flex-direction: column;
-	border-radius: 10px;
-	background-color: #ffffffc9;
-	box-shadow: -1px -1px 2px rgba(102, 102, 102, 0.25),
-	1px 1px 2px rgba(0, 0, 0, 0.25);
-}
+
 
 .total-expenses {
 	font-size: 2rem;
 	margin: 0px;
 }
 
-form span {
+form {
+	display: flex;
+	flex-direction: column;
+}
+
+form span{
 	color: var(--active-color);
 }
 
@@ -225,7 +220,6 @@ textarea {
 	box-shadow: inset -4px -4px 10px rgba(85, 85, 85, 0.25),
 		inset 4px 4px 10px rgba(0, 0, 0, 0.25);
 	border-radius: 8px;
-	margin-bottom: 1.5rem;
 }
 
 input[type="text"]:focus,
@@ -244,7 +238,6 @@ input[type="text"].invalid,
 input[type="password"].invalid,
 input[type="number"].invalid,
 input[type="date"]:invalid,
-input[type="month"]:invalid,
 select:invalid,
 textarea.invalid {
 	box-shadow: 0px 0px 10px var(--active-color),
@@ -265,7 +258,7 @@ textarea {
 
 button.btn {
 	font: var(--font-primary) 1rem;
-	background: transparent;
+
 	border: none;
 	cursor: pointer;
 }
@@ -285,6 +278,14 @@ button.btn {
 	color: #00A439;
 }
 
+.filter {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	margin: 20px 0px;
+}
+
 .expenses {
 	width: 100%;
 	max-width: 1200px;
@@ -298,7 +299,11 @@ button.btn {
 }
 
 .card-expense {
-	background-color: rgb(221, 90, 90);
+
+	background-color: #f3ff99;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	position: relative;
 	padding: 0.5rem 1rem;
 	border-radius: 8px;
@@ -387,6 +392,7 @@ button.btn {
 		4px 4px 12px rgba(0, 0, 0, 0.25);
 	cursor: pointer;
 	float: right;
+	
 }
 
 .btn-hand span {

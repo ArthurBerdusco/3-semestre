@@ -14,7 +14,7 @@
     <div class="content">
         <h1>Adicionar Despesa</h1>
 
-        <form th:action="@{/expense/new}" method="post" th:object="${expense}">
+        <form th:action="@{/expense/new}" th:method="post" th:object="${expense}">
 
             <!--DATA-->
             <label for="date">Data: </label>

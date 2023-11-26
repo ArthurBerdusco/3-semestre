@@ -13,9 +13,12 @@
     <div class="content">
         <h1>Magic Expense</h1>
 
-        <form method="get" action="/expense" id="form">
+        <form th:action="@{'/expense'}" th:method="get">
             <h2>Gestão de despesas por mês</h2>
-            <input type="month" name="month" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM')}" onchange="submitForm(event)">
+            <div class="filter">
+                <input type="month" name="month" min="2000-01" max="2100-12" >
+                <button type="submit" class="btn blue">Buscar</button>
+            </div>
         </form>
 
         <a href="/expense/new" class="btn">Adicionar Despesa</a>
@@ -23,42 +26,20 @@
         <div class="expenses">
             <div class="card-expense" th:each="expense : ${expenses}">
                 <h2 th:text="${expense.category}"></h2>
-                <p th:text="${expense.amount}"></p>
-                <p th:text="${#dates.format(expense.date, 'dd/MM/yyyy')}"></p>
+                <p th:text="'R$ ' + ${expense.amount}"></p>
+                <p th:text="'Data: ' + ${#dates.format(expense.date, 'dd/MM/yyyy')}"></p>
                 <div class="actions">
-                    <form style="color: inherit; background-color: #aeaeae; width: 7rem;" th:action="@{'/expense/{id}'(id=${expense.id})}" th:method="DELETE">
-                        <button class="btn red">apagar</button>
+                    <form style="background-color: #f3ff99; width: 7rem;" th:action="@{'/expense/{id}'(id=${expense.id})}" th:method="DELETE">
+                        <button type="submit" class="btn red">Apagar</button>
                     </form>
                 </div>
             </div>
 
         </div>
 
-        <h3>Total de Despesas para o Mês:
-            <span th:text="${totalExpenses}" class="total-expenses"></span>
+        <h3>Valor das Despesas:   
+            <span th:text="'R$  '+${totalExpenses}" class="total-expenses"></span>
         </h3>
-
-
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                // Ao carregar a página, verifique se há um valor salvo no localStorage
-                var storedMonth = localStorage.getItem("selectedMonth");
-                if (storedMonth) {
-                    // Se houver, defina o valor do input
-                    document.querySelector('input[name="month"]').value = storedMonth;
-                }
-            });
-
-            function submitForm(event) {
-                // Antes de enviar o formulário, salve o valor do mês no localStorage
-                var selectedMonth = document.querySelector('input[name="month"]').value;
-                localStorage.setItem("selectedMonth", selectedMonth);
-
-                // Envie o formulário
-                form.submit();
-            }
-        </script>
 
     </div>
 
