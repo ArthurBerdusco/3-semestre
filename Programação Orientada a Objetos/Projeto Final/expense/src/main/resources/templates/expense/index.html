@@ -13,12 +13,46 @@
     <div class="content">
         <h1>Magic Expense</h1>
 
-        <form th:action="@{'/expense'}" th:method="get">
-            <h2>Gestão de despesas por mês</h2>
-            <div class="filter">
-                <input type="month" name="month" min="2000-01" max="2100-12" >
-                <button type="submit" class="btn blue">Buscar</button>
+        <form class="filter-form" th:action="@{'/expense'}" th:method="get">
+            <h2>Filtrar Despesas</h2>
+
+            <div class="filter-row">
+                <div class="filter-col">
+                    <label for="month">Mês/Ano:</label>
+                    <input type="month" id="month" name="month" min="2000-01" max="2100-12">
+                </div>
+
+                <div class="filter-col">
+                    <label for="category">Categoria:</label>
+                    <select id="category" name="category">
+                        <option value="Selecione">Selecione</option>
+                        <option value="Conta de Luz">Conta de Luz</option>
+                        <option value="Faculdade">Faculdade</option>
+                        <option value="Estacionamento">Estacionamento</option>
+                        <option value="Academia">Academia</option>
+                        <option value="Internet">Internet</option>
+                        <option value="Comida">Comida</option>
+                        <option value="Gasolina">Gasolina</option>
+                    </select>
+                </div>
+
+                <div class="filter-col">
+                    <label for="amount">Valor:</label>
+                    <div class="filter-row">
+                        <div class="filter-col"><select id="amountOperator" name="amountOperator">
+                                <option value="GREATER_THAN_OR_EQUAL">>=</option>
+                                <option value="LESS_THAN_OR_EQUAL"><=</option>
+                                <option value="EQUAL">==</option>
+                            </select></div>
+                        <div class="filter-col"><input type="number" id="amount" name="amount"
+                                placeholder="Valor">
+                        </div>
+                    </div>
+
+                </div>
             </div>
+
+            <button type="submit" class="filter-button">Buscar</button>
         </form>
 
         <a href="/expense/new" class="btn">Adicionar Despesa</a>
@@ -26,10 +60,11 @@
         <div class="expenses">
             <div class="card-expense" th:each="expense : ${expenses}">
                 <h2 th:text="${expense.category}"></h2>
-                <p th:text="'R$ ' + ${expense.amount}"></p>
-                <p th:text="'Data: ' + ${#dates.format(expense.date, 'dd/MM/yyyy')}"></p>
+                <h3 th:text="'R$ ' + ${expense.amount}"></h3>
+                <h3 th:text="'Data: ' + ${#dates.format(expense.date, 'dd/MM/yyyy')}"></h3>
                 <div class="actions">
-                    <form style="background-color: #f3ff99; width: 7rem;" th:action="@{'/expense/{id}'(id=${expense.id})}" th:method="DELETE">
+                    <form style="background-color: #f3ff9900; width: 7rem;"
+                        th:action="@{'/expense/{id}'(id=${expense.id})}" th:method="DELETE">
                         <button type="submit" class="btn red">Apagar</button>
                     </form>
                 </div>
@@ -37,7 +72,7 @@
 
         </div>
 
-        <h3>Valor das Despesas:   
+        <h3>Valor das Despesas:
             <span th:text="'R$  '+${totalExpenses}" class="total-expenses"></span>
         </h3>
 

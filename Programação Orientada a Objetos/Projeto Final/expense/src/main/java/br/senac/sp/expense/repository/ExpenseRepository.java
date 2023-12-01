@@ -1,5 +1,6 @@
 package br.senac.sp.expense.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,14 @@ public interface ExpenseRepository extends JpaRepository<Expense, Long> {
     List<Expense> findByMonthAndYear(@Param("month") String month, @Param("year") String year);
 
     List<Expense> findAllByOrderByDateAsc();
+
+    List<Expense> findByCategory(String category);
+
+    List<Expense> findByAmount(BigDecimal amount);
+
+    List<Expense> findByAmountGreaterThanEqual(BigDecimal amount);
+
+    List<Expense> findByAmountLessThanEqual(BigDecimal amount);
+
+    
 }

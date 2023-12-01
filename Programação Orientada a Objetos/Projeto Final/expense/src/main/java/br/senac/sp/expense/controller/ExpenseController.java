@@ -26,25 +26,43 @@ public class ExpenseController {
     ExpenseRepository repository;
 
     @GetMapping
-    public String index(@RequestParam(name = "month", required = false) String date, Model model) {
+    public String index(@RequestParam(name = "month", required = false) String date,
+            @RequestParam(name = "category", required = false) String category,
+            @RequestParam(name = "amount", required = false) BigDecimal amount,
+            @RequestParam(name = "amountOperator", required = false) String amountOperator,
+            Model model) {
 
         List<Expense> list;
-        if (date != null && date != "") {
+
+        if (date != null && !date.isEmpty()) {
             String year = date.substring(0, 4);
             String month = date.substring(5);
             list = repository.findByMonthAndYear(month, year);
+        } else if (category != null && !category.isEmpty() && !category.equals("Selecione")) {
+            list = repository.findByCategory(category);
+        } else if (amount != null && amountOperator != null) {
+            System.out.println("Entrei auqi");
+            if ("EQUAL".equals(amountOperator)) {
+                list = repository.findByAmount(amount);
+            } else if ("GREATER_THAN_OR_EQUAL".equals(amountOperator)) {
+                list = repository.findByAmountGreaterThanEqual(amount);
+            } else if ("LESS_THAN_OR_EQUAL".equals(amountOperator)) {
+                list = repository.findByAmountLessThanEqual(amount);
+            } else {
+                list = repository.findAllByOrderByDateAsc();
+            }
         } else {
             list = repository.findAllByOrderByDateAsc();
         }
-    
+
         model.addAttribute("expenses", list);
-    
+
         BigDecimal totalExpenses = new BigDecimal(0);
-    
+
         for (Expense expense : list) {
             totalExpenses = totalExpenses.add(expense.getAmount());
         }
-    
+
         model.addAttribute("totalExpenses", totalExpenses);
         return "expense/index";
     }
@@ -62,10 +80,10 @@ public class ExpenseController {
         return "redirect:/expense";
     }
 
-    @DeleteMapping("{id}")// /expense/2
-    public String delete(@PathVariable Long id){
+    @DeleteMapping("{id}") // /expense/2
+    public String delete(@PathVariable Long id) {
         repository.deleteById(id);
-        return "redirect:/expense"; 
+        return "redirect:/expense";
     }
 
 }
